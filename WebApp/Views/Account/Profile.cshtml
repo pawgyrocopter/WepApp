@@ -1,6 +1,20 @@
-﻿
+﻿@model List<Topic>
 <h2>Profile page</h2>
-<a class="nav-link text-dark" asp-controller="Account"
-                  asp-action="ShowInfo">
-                   <button type="button" class="btn btn-primary">Primary</button>
-               </a>
+
+<a class="nav-link text-dark" asp-controller="Topic"
+   asp-action="Create">
+    Create new topic
+</a>
+<div class="list-group">
+    @foreach (var i in Model)
+    {
+        <a href="#" class="list-group-item list-group-item-action " aria-current="true">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">@i.Name</h5>
+                <small>3 days ago</small>
+            </div>
+            <p class="mb-1">@i.Info</p>
+            <small>And some small print.</small>
+        </a>
+    }
+</div>

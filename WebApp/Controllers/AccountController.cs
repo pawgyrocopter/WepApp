@@ -22,7 +22,29 @@ public class AccountController : Controller
     [Authorize]
     public IActionResult Profile()
     {
-        return View();
+        int? UserId = null;
+        foreach (var i in _context.Users)
+        {
+            if (i.Email.Equals(User.Identity.Name))
+            {
+                UserId = i.Id;
+            }
+        }
+
+        List<Topic> topics = new();
+        foreach (var i in _context.Topics)
+        {
+            if (i.UserId == UserId)
+            {
+                topics.Add(i);
+            }
+        }
+        return View(topics);
+    }
+    
+    public IActionResult ButtonClick()
+    {
+        return RedirectToAction("Create", "Topic");
     }
 
     [HttpGet]
