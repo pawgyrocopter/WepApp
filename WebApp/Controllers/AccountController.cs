@@ -72,8 +72,8 @@ public class AccountController : Controller
                 Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                 if (userRole != null)
                     user.Role = userRole;
-                user.Topics = new List<Topic>();
-                user.Topics.Add(new Topic(){Name = "qweqe", Info = "qqqq"});
+               // user.Topics = new List<Topic>();
+               // user.Topics.Add(new Topic(){Name = "qweqe", Info = "qqqq"});
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 

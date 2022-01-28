@@ -59,8 +59,20 @@ namespace WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(topic);
-                await _context.SaveChangesAsync();
+                if (topic.UserId == 0)
+                {
+                    foreach (var i in _context.Users)
+                    {
+                        if (i.Email.Equals(User.Identity.Name))
+                        {
+                            topic.UserId = i.Id;
+                            break;
+                        }
+                    }
+                }
+                _context.Topics.Add(topic);
+                Console.WriteLine(topic.UserId + " " +topic.TopicId );
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
             return View(topic);

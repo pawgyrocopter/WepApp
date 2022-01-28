@@ -11,8 +11,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220126155135_Topics")]
-    partial class Topics
+    [Migration("20220128193136_qwe123")]
+    partial class qwe123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
