@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Data;
 using WebApp.Models;
+using WebApp.Services;
 
 namespace WebApp.Controllers
 {
@@ -45,6 +47,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Topic/Create
+        [Authorize]
         public IActionResult Create()
         {
             return View();
@@ -79,17 +82,24 @@ namespace WebApp.Controllers
         }
 
         // GET: Topic/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
+            
             if (id == null)
             {
                 return NotFound();
             }
 
             var topic = await _context.Topics.FindAsync(id);
+            
             if (topic == null)
             {
                 return NotFound();
+            }
+            if (!CheckUserId(topic))
+            {
+                return RedirectToAction("Index");
             }
             return View(topic);
         }
@@ -130,6 +140,7 @@ namespace WebApp.Controllers
         }
 
         // GET: Topic/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -139,11 +150,15 @@ namespace WebApp.Controllers
 
             var topic = await _context.Topics
                 .FirstOrDefaultAsync(m => m.TopicId == id);
+           
             if (topic == null)
             {
                 return NotFound();
             }
-
+            if (!CheckUserId(topic))
+            {
+                return RedirectToAction("Index");
+            }
             return View(topic);
         }
 
@@ -161,6 +176,25 @@ namespace WebApp.Controllers
         private bool TopicExists(int id)
         {
             return _context.Topics.Any(e => e.TopicId == id);
+        }
+
+        public bool CheckUserId(Topic topic)
+        {
+            if (User.IsInRole("admin"))
+            {
+                return true;
+            }
+            foreach (var i in _context.Users)
+            {
+                if (i.Email.Equals(User.Identity.Name))
+                {
+                    if (i.Id != topic.UserId)
+                    {
+                        return false;
+                    }else break;
+                }
+            }
+            return true;
         }
     }
 }

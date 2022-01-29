@@ -26,9 +26,12 @@ public class HomeController : Controller
         string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
         return Content($"ваша роль: {role}");
     }
-    
-    
 
+
+    public IActionResult Collections()
+    {
+        return RedirectToAction("Index", "Topic");
+    }
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
