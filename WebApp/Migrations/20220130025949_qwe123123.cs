@@ -4,7 +4,7 @@
 
 namespace WebApp.Migrations
 {
-    public partial class qwe123 : Migration
+    public partial class qwe123123 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -19,6 +19,21 @@ namespace WebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Roles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TopicItems",
+                columns: table => new
+                {
+                    ItemId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    TopicId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ProfilePicture = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TopicItems", x => x.ItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -75,6 +90,11 @@ namespace WebApp.Migrations
                 values: new object[] { 2, "user" });
 
             migrationBuilder.InsertData(
+                table: "TopicItems",
+                columns: new[] { "ItemId", "Name", "ProfilePicture", "TopicId" },
+                values: new object[] { 1, "Default", "null", 1 });
+
+            migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "Email", "FirstName", "LastName", "Password", "RoleId" },
                 values: new object[] { 1, "admin@mail.ru", "qwe", "qwe", "123456", 1 });
@@ -97,6 +117,9 @@ namespace WebApp.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "TopicItems");
+
             migrationBuilder.DropTable(
                 name: "Topics");
 

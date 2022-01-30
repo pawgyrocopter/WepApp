@@ -11,8 +11,8 @@ using WebApp.Data;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220128193136_qwe123")]
-    partial class qwe123
+    [Migration("20220130025949_qwe123123")]
+    partial class qwe123123
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,6 +76,37 @@ namespace WebApp.Migrations
                             Info = "None",
                             Name = "Default topic",
                             UserId = 1
+                        });
+                });
+
+            modelBuilder.Entity("WebApp.Models.TopicItem", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ItemId");
+
+                    b.ToTable("TopicItems");
+
+                    b.HasData(
+                        new
+                        {
+                            ItemId = 1,
+                            Name = "Default",
+                            ProfilePicture = "null",
+                            TopicId = 1
                         });
                 });
 

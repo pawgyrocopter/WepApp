@@ -2,6 +2,8 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SQLitePCL;
+using WebApp.Data;
 using WebApp.Models;
 
 namespace WebApp.Controllers;
@@ -9,10 +11,16 @@ namespace WebApp.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly ApplicationDbContext _context;
+    private readonly IWebHostEnvironment webHostEnvironment;  
 
-    public HomeController(ILogger<HomeController> logger)
+
+    public HomeController(ILogger<HomeController> logger, ApplicationDbContext context,IWebHostEnvironment hostEnvironment)
     {
         _logger = logger;
+        _context = context;
+        webHostEnvironment = hostEnvironment;  
+
     }
 
     public IActionResult Index()
@@ -26,6 +34,11 @@ public class HomeController : Controller
         string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
         return Content($"ваша роль: {role}");
     }
+
+    
+   
+    
+    
 
 
     public IActionResult Collections()

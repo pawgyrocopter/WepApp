@@ -21,4 +21,10 @@
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Media" />
+      <Folder Include="Migrations" />
+      <Folder Include="wwwroot\images" />
+    </ItemGroup>
+
 </Project>

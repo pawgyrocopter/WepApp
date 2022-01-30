@@ -77,6 +77,37 @@ namespace WebApp.Migrations
                         });
                 });
 
+            modelBuilder.Entity("WebApp.Models.TopicItem", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProfilePicture")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("TopicId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("ItemId");
+
+                    b.ToTable("TopicItems");
+
+                    b.HasData(
+                        new
+                        {
+                            ItemId = 1,
+                            Name = "Default",
+                            ProfilePicture = "null",
+                            TopicId = 1
+                        });
+                });
+
             modelBuilder.Entity("WebApp.Models.User", b =>
                 {
                     b.Property<int>("Id")

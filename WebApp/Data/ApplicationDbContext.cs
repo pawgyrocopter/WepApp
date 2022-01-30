@@ -8,6 +8,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<Topic> Topics { get; set; }
+    
+    public DbSet<TopicItem> TopicItems { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -31,6 +33,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
         modelBuilder.Entity<User>().HasData( new User[] { adminUser });
         modelBuilder.Entity<Topic>().HasData( new Topic[] { new Topic(){TopicId = 1, Name = "Default topic", Info = "None", UserId = 1} });
+        modelBuilder.Entity<TopicItem>().HasData(new TopicItem(){ItemId = 1, Name = "Default", ProfilePicture = "null",TopicId = 1});
         base.OnModelCreating(modelBuilder);
     }
 }
