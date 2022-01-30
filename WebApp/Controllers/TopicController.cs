@@ -38,13 +38,21 @@ namespace WebApp.Controllers
 
             var topic = await _context.Topics
                 .FirstOrDefaultAsync(m => m.TopicId == id);
+            var itemList = (from m in _context.TopicItems where m.TopicId == topic.TopicId select m).ToList();
+
             if (topic == null)
             {
                 return NotFound();
             }
 
-            return View(topic);
-        }
+            return View(new TopicViewModel()
+            {
+                UserId = topic.UserId,
+                Info = topic.Info,
+                TopicId = topic.TopicId,
+                Name = topic.Name,
+                Items = itemList
+            });        }
 
         // GET: Topic/Create
         [Authorize]

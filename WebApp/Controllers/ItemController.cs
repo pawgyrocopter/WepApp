@@ -65,7 +65,7 @@ public class ItemController : Controller
         {
             return NotFound();
         }
-
+        
         var i = id.Split("_");
         int? itemId = int.Parse(i[0]);
         int? topicId = int.Parse(i[1]);

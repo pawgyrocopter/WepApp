@@ -1,4 +1,4 @@
-@model dynamic
+@model TopicViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -23,6 +23,24 @@
             @Model.Info
         </dd>
     </dl>
+    <div class="col-md-4">
+            @foreach (var i in Model.Items)
+            {
+                if (Model.TopicId == i.TopicId)
+                {
+                    var imagePath = "/images/" + i.ProfilePicture;
+                    <div class="item">
+                        <img src="@imagePath" width="100" height="100" alt="@i.Name"/>
+                       
+                        <span class="caption">
+                            @i.Name 
+                      
+                        </span>
+                        
+                    </div>
+                }
+            }
+        </div>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model?.TopicId">Edit</a> |
