@@ -18,7 +18,7 @@ public class AccountController : Controller
     {
         _context = context;
     }
-    
+
     [Authorize]
     public IActionResult Profile()
     {
@@ -39,9 +39,10 @@ public class AccountController : Controller
                 topics.Add(i);
             }
         }
+
         return View(topics);
     }
-    
+
     public IActionResult ButtonClick()
     {
         return RedirectToAction("Create", "Topic");
@@ -58,6 +59,7 @@ public class AccountController : Controller
         await HttpContext.SignOutAsync();
         return RedirectToAction("Index", "Home");
     }
+
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterModel model)
@@ -67,17 +69,18 @@ public class AccountController : Controller
             User user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
             if (user == null)
             {
-                // добавляем пользователя в бд
-                user = new User {Email = model.Email, Password = model.Password, FirstName = model.FirstName, LastName = model.LastName};
+                user = new User
+                {
+                    Email = model.Email, Password = model.Password, FirstName = model.FirstName,
+                    LastName = model.LastName
+                };
                 Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
                 if (userRole != null)
                     user.Role = userRole;
-               // user.Topics = new List<Topic>();
-               // user.Topics.Add(new Topic(){Name = "qweqe", Info = "qqqq"});
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
 
-                await Authenticate(user); // аутентификация
+                await Authenticate(user);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -105,7 +108,7 @@ public class AccountController : Controller
                 .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
             if (user != null)
             {
-                await Authenticate(user); // аутентификация
+                await Authenticate(user);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -118,21 +121,13 @@ public class AccountController : Controller
 
     private async Task Authenticate(User user)
     {
-        // создаем один claim
         var claims = new List<Claim>
         {
             new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
             new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
         };
-        // создаем объект ClaimsIdentity
         ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
             ClaimsIdentity.DefaultRoleClaimType);
-        // установка аутентификационных куки
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
     }
-
-    public void ShowInfo()
-    {
-       
-    } 
 }

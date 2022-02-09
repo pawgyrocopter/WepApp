@@ -25,15 +25,16 @@ public class ApplicationDbContext : DbContext
         string adminEmail = "admin@mail.ru";
         string adminPassword = "123456";
  
-        // добавляем роли
         Role adminRole = new Role { Id = 1, Name = adminRoleName };
         Role userRole = new Role { Id = 2, Name = userRoleName };
         User adminUser = new User { Id = 1, Email = adminEmail, Password = adminPassword, RoleId = adminRole.Id , FirstName = "qwe",LastName = "qwe", Topics = new List<Topic>()};
- 
+        
+        
         modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
         modelBuilder.Entity<User>().HasData( new User[] { adminUser });
         modelBuilder.Entity<Topic>().HasData( new Topic[] { new Topic(){TopicId = 1, Name = "Default topic", Info = "None", UserId = 1} });
         modelBuilder.Entity<TopicItem>().HasData(new TopicItem(){ItemId = 1, Name = "Default", ProfilePicture = "null",TopicId = 1});
         base.OnModelCreating(modelBuilder);
     }
+    
 }
